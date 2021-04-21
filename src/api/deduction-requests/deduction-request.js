@@ -2,7 +2,7 @@ import { body } from 'express-validator';
 import { v4 as uuid } from 'uuid';
 import { sendRetrievalRequest } from '../../services/gp2gp';
 import { handleUpdateRequest } from './handle-update-request';
-import { logError, logInfo } from '../../middleware/logging';
+import { logError, logInfo, logWarning } from '../../middleware/logging';
 import { createDeductionRequest } from '../../services/database/create-deduction-request';
 import config from '../../config/index';
 import { setCurrentSpanAttributes } from '../../config/tracing';
@@ -20,6 +20,9 @@ export const deductionRequest = async (req, res) => {
 
   try {
     const pdsRetrievalResponse = await sendRetrievalRequest(req.body.nhsNumber);
+    if (pdsRetrievalResponse.data.data.odsCode === config.repositoryOdsCode) {
+      logWarning('Patient is already assigned to Repo - requesting Health Record from itself');
+    }
     await createDeductionRequest(
       conversationId,
       req.body.nhsNumber,
