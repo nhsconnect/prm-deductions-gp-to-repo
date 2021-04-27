@@ -185,7 +185,7 @@
           },
           {
             "in": "body",
-            "name": "ehrExtractMessageId",
+            "name": "messageId",
             "description": "EHR Extract Message Id (must be UUID)",
             "schema": {
               "$ref": "#/definitions/largeEhrStarted"
@@ -342,11 +342,11 @@
     "largeEhrStarted": {
       "type": "object",
       "properties": {
-        "ehrExtractMessageId": {
+        "messageId": {
           "type": "string"
         }
       },
-      "required": ["ehrExtractMessageId"]
+      "required": ["messageId"]
     },
     "errorResponse": {
       "type": "object",

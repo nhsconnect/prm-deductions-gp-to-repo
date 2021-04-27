@@ -17,7 +17,7 @@ jest.mock('../../../services/gp2gp/send-continue-request');
 describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
   describe('success', () => {
     const conversationId = uuid();
-    const ehrExtractMessageId = uuid();
+    const messageId = uuid();
     const odsCode = 'B1234';
 
     beforeEach(() => {
@@ -31,7 +31,7 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
     it('should update status to large ehr transfer started', async () => {
       await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(logInfo).toHaveBeenCalledWith('Updated deduction request status to largeEhrStarted');
       expect(updateDeductionRequestStatus).toHaveBeenCalledWith(
@@ -43,20 +43,16 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
     it('should send continue request', async () => {
       await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
-      expect(sendContinueRequest).toHaveBeenCalledWith(
-        conversationId,
-        ehrExtractMessageId,
-        odsCode
-      );
+      expect(sendContinueRequest).toHaveBeenCalledWith(conversationId, messageId, odsCode);
       expect(logInfo).toHaveBeenCalledWith('Sent continue request');
     });
 
     it('should update status to continue message sent and return 204', async () => {
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(updateDeductionRequestStatus).toHaveBeenCalledWith(
         conversationId,
@@ -75,10 +71,10 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
     it('should return 404 if deduction request not found', async () => {
       getDeductionRequestByConversationId.mockResolvedValueOnce(null);
       const conversationId = uuid();
-      const ehrExtractMessageId = uuid();
+      const messageId = uuid();
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(updateDeductionRequestStatus).not.toHaveBeenCalled();
       expect(res.status).toEqual(404);
@@ -87,10 +83,10 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
     it('should return a 503 when there is an error getting deduction request from database', async () => {
       getDeductionRequestByConversationId.mockRejectedValueOnce(err);
       const conversationId = uuid();
-      const ehrExtractMessageId = uuid();
+      const messageId = uuid();
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(updateDeductionRequestStatus).not.toHaveBeenCalled();
       expect(res.status).toEqual(503);
@@ -99,7 +95,7 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
 
     it('should return a 503 when there is an error updating the deduction request status', async () => {
       const conversationId = uuid();
-      const ehrExtractMessageId = uuid();
+      const messageId = uuid();
       getDeductionRequestByConversationId.mockResolvedValueOnce({
         conversationId,
         status: Status.EHR_REQUEST_SENT
@@ -108,14 +104,14 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
 
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
       expect(res.status).toEqual(503);
       expect(logError).toHaveBeenCalledWith('Error sending continue message', err);
     });
 
     it('should return a 503 when there is an error sending the continue message', async () => {
       const conversationId = uuid();
-      const ehrExtractMessageId = uuid();
+      const messageId = uuid();
       const err = new Error('error');
       getDeductionRequestByConversationId.mockResolvedValueOnce({
         conversationId,
@@ -126,7 +122,7 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
 
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(updateDeductionRequestStatus).not.toHaveBeenCalledWith(
         conversationId,
@@ -141,11 +137,11 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
     it('should return an error if :conversationId is not valid', async () => {
       const errorMessage = [{ conversationId: "'conversationId' provided is not of type UUID" }];
       const invalidConversationId = '12345';
-      const ehrExtractMessageId = uuid();
+      const messageId = uuid();
 
       const res = await request(app)
         .patch(`/deduction-requests/${invalidConversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId });
+        .send({ messageId });
 
       expect(res.status).toEqual(422);
       expect(res.body).toEqual({
@@ -153,16 +149,14 @@ describe('PATCH /deduction-requests/:conversationId/large-ehr-started', () => {
       });
     });
 
-    it('should return an error if :ehrExtractMessageId is not valid', async () => {
-      const errorMessage = [
-        { ehrExtractMessageId: "'ehrExtractMessageId' provided is not of type UUID" }
-      ];
-      const invalidEhrExtractMessageId = '12345';
+    it('should return an error if messageId is not valid', async () => {
+      const errorMessage = [{ messageId: "'messageId' provided is not of type UUID" }];
+      const invalidMessageId = '12345';
       const conversationId = uuid();
 
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ invalidEhrExtractMessageId });
+        .send({ messageId: invalidMessageId });
 
       expect(res.status).toEqual(422);
       expect(res.body).toEqual({

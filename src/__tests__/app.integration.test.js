@@ -251,7 +251,7 @@ describe('app', () => {
 
   describe('PATCH /deduction-requests/:conversation-id/large-ehr-started', () => {
     const conversationId = uuid();
-    const ehrExtractMessageId = uuid();
+    const messageId = uuid();
     const expectedNhsNumber = '1234567898';
     const odsCode = 'B1234';
 
@@ -266,7 +266,7 @@ describe('app', () => {
 
       const res = await request(app)
         .patch(`/deduction-requests/${conversationId}/large-ehr-started`)
-        .send({ ehrExtractMessageId })
+        .send({ messageId })
         .set('Authorization', 'correct-key');
 
       expect(res.status).toEqual(204);

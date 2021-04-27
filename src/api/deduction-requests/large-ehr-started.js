@@ -10,15 +10,13 @@ import { setCurrentSpanAttributes } from '../../config/tracing';
 
 export const largeEhrStartedValidationRules = [
   param('conversationId').isUUID().withMessage("'conversationId' provided is not of type UUID"),
-  body('ehrExtractMessageId')
-    .isUUID()
-    .withMessage("'ehrExtractMessageId' provided is not of type UUID")
+  body('messageId').isUUID().withMessage("'messageId' provided is not of type UUID")
 ];
 
 export const largeEhrStarted = async (req, res) => {
   const { conversationId } = req.params;
-  const { ehrExtractMessageId } = req.body;
-  setCurrentSpanAttributes({ conversationId, messageId: ehrExtractMessageId });
+  const { messageId } = req.body;
+  setCurrentSpanAttributes({ conversationId, messageId });
 
   try {
     const deductionRequest = await getDeductionRequestByConversationId(conversationId);
@@ -30,7 +28,7 @@ export const largeEhrStarted = async (req, res) => {
     await updateDeductionRequestStatus(conversationId, Status.LARGE_EHR_STARTED);
     logInfo('Updated deduction request status to largeEhrStarted');
 
-    await sendContinueRequest(conversationId, ehrExtractMessageId, deductionRequest.odsCode);
+    await sendContinueRequest(conversationId, messageId, deductionRequest.odsCode);
     logInfo('Sent continue request');
 
     await updateDeductionRequestStatus(conversationId, Status.CONTINUE_MESSAGE_SENT);
