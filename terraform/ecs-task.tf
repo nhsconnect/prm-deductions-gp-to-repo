@@ -5,7 +5,7 @@ locals {
   environment_variables = [
     { name = "NODE_ENV", value = var.environment },
     { name = "GP2GP_URL", value = data.aws_ssm_parameter.gp2gp_url.value },
-    { name = "EHR_REPO_URL", value = "http://${var.environment}.ehr-repo.patient-deductions.nhs.uk" },
+    { name = "EHR_REPO_URL", value = "http://ehr-repo.${var.environment}.non-prod.patient-deductions.nhs.uk" },
     { name = "DATABASE_NAME", value = var.database_name },
     { name = "DATABASE_HOST", value = data.aws_ssm_parameter.rds_endpoint.value },
     { name = "SERVICE_URL", value = "http://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
