@@ -8,7 +8,7 @@ locals {
     { name = "EHR_REPO_URL", value = "http://${var.environment}.ehr-repo.patient-deductions.nhs.uk" },
     { name = "DATABASE_NAME", value = var.database_name },
     { name = "DATABASE_HOST", value = data.aws_ssm_parameter.rds_endpoint.value },
-    { name = "SERVICE_URL", value = aws_ssm_parameter.service_url.value},
+    { name = "SERVICE_URL", value = "http://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
     { name = "REPOSITORY_ODS_CODE", value = var.ods_code },
     { name = "REPOSITORY_ASID", value = var.asid }
   ]
