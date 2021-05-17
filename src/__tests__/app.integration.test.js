@@ -34,6 +34,9 @@ describe('app', () => {
     if (process.env.AUTHORIZATION_KEYS) {
       delete process.env.AUTHORIZATION_KEYS;
     }
+    if (process.env.NHS_NUMBER_PREFIX) {
+      delete process.env.NHS_NUMBER_PREFIX;
+    }
   });
 
   afterAll(async () => {
@@ -92,6 +95,7 @@ describe('app', () => {
 
   describe('POST /deduction-requests/', () => {
     it('should return a 201 status code and empty body for /deduction-requests/', async () => {
+      process.env.NHS_NUMBER_PREFIX = '111';
       const res = await request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: '1111111111' })
@@ -106,6 +110,7 @@ describe('app', () => {
     });
 
     it('should return a location header with lowercase conversationId', async () => {
+      process.env.NHS_NUMBER_PREFIX = '111';
       const res = await request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: '1111111111' })
@@ -122,6 +127,7 @@ describe('app', () => {
     });
 
     it('should return a 503 status code with Errors for /deduction-requests/', async () => {
+      process.env.NHS_NUMBER_PREFIX = '999';
       axios.patch.mockImplementation(() =>
         Promise.resolve({ status: 200, data: 'incorrect data!' })
       );

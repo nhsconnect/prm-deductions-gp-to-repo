@@ -13,7 +13,8 @@ export const initializeConfig = () => ({
   repositoryAsid: process.env.REPOSITORY_ASID,
   url: process.env.SERVICE_URL || `http://127.0.0.1:${portNumber}`,
   sequelize: sequelizeConfig,
-  nhsEnvironment: process.env.NHS_ENVIRONMENT || 'local'
+  nhsEnvironment: process.env.NHS_ENVIRONMENT || 'local',
+  nhsNumberPrefix: process.env.NHS_NUMBER_PREFIX
 });
 
 export default initializeConfig();

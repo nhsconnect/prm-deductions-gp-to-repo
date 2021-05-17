@@ -3,22 +3,19 @@
  */
 import request from 'supertest';
 import app from '../../app';
+import { initializeConfig } from '../../config';
 
 jest.mock('../logging');
+jest.mock('../../config');
+initializeConfig.mockReturnValue({
+  nhsNumberPrefix: '000',
+  url: 'url',
+  gpToRepoAuthKeys: 'correct-key'
+});
 
 // In all other unit tests we want to pass through all of this logic and should therefore call jest.mock
 // jest.mock('../auth') will call the manual mock in __mocks__ automatically
 describe('auth', () => {
-  beforeEach(() => {
-    process.env.AUTHORIZATION_KEYS = 'correct-key';
-  });
-
-  afterEach(() => {
-    if (process.env.AUTHORIZATION_KEYS) {
-      delete process.env.AUTHORIZATION_KEYS;
-    }
-  });
-
   describe('authenticated successfully', () => {
     it('should return HTTP 200 when correctly authenticated', done => {
       request(app)
@@ -31,13 +28,8 @@ describe('auth', () => {
   });
 
   describe('AUTHORIZATION_KEYS environment variables not provides', () => {
-    beforeEach(() => {
-      if (process.env.AUTHORIZATION_KEYS) {
-        delete process.env.AUTHORIZATION_KEYS;
-      }
-    });
-
     it('should return 412 if AUTHORIZATION_KEYS have not been set', done => {
+      initializeConfig.mockReturnValueOnce({ gpToRepoAuthKeys: '' });
       request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: '0000000000' })
@@ -47,6 +39,7 @@ describe('auth', () => {
     });
 
     it('should return an explicit error message in the body if AUTHORIZATION_KEYS have not been set', done => {
+      initializeConfig.mockReturnValueOnce({ gpToRepoAuthKeys: '' });
       request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: '0000000000' })
@@ -109,37 +102,6 @@ describe('auth', () => {
             })
           );
         })
-        .end(done);
-    });
-  });
-
-  describe('should only authenticate with exact value of the auth key', () => {
-    it('should return HTTP 403 when authorization key is incorrect', done => {
-      request(app)
-        .post(`/deduction-requests/`)
-        .send({ nhsNumber: '0000000000' })
-        .set('Authorization', 'co')
-        .expect(403)
-        .end(done);
-    });
-
-    it('should return HTTP 403 when authorization key is partial string', done => {
-      process.env.AUTHORIZATION_KEYS = 'correct-key,other-key';
-      request(app)
-        .post(`/deduction-requests/`)
-        .send({ nhsNumber: '0000000000' })
-        .set('Authorization', 'correct-key')
-        .expect(403)
-        .end(done);
-    });
-
-    it('should return HTTP 503 when authorization keys have a comma but are one string ', done => {
-      process.env.AUTHORIZATION_KEYS = 'correct-key,other-key';
-      request(app)
-        .post(`/deduction-requests/`)
-        .send({ nhsNumber: '0000000000' })
-        .set('Authorization', 'correct-key,other-key')
-        .expect(503)
         .end(done);
     });
   });

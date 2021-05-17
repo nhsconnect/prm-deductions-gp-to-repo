@@ -59,3 +59,7 @@ data "aws_ssm_parameter" "deductions_private_int_alb_httpsl_arn" {
 data "aws_ssm_parameter" "deductions_private_alb_internal_dns" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-alb-internal-dns"
 }
+
+data "aws_ssm_parameter" "nhs_number_prefix" {
+  name = "/repo/${var.environment}/user-input/nhs-number-prefix"
+}

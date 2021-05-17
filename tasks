@@ -55,6 +55,7 @@ function configure_local_envs {
   export EHR_REPO_URL="www.notreal.com"
   export REPOSITORY_URI=$IMAGE_REPO_NAME
   export GP_TO_REPO_SKIP_MIGRATION=false
+  export NHS_NUMBER_PREFIX=prefix
   configure_service_url
   get_latest_commit_hash
 }

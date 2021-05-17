@@ -10,7 +10,8 @@ locals {
     { name = "DATABASE_HOST", value = data.aws_ssm_parameter.rds_endpoint.value },
     { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
     { name = "REPOSITORY_ODS_CODE", value = var.ods_code },
-    { name = "REPOSITORY_ASID", value = var.asid }
+    { name = "REPOSITORY_ASID", value = var.asid },
+    { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value }
   ]
   secret_environment_variables = [
     { name = "AUTHORIZATION_KEYS", valueFrom = data.aws_ssm_parameter.authorization_keys.arn },

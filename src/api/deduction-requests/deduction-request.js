@@ -4,7 +4,7 @@ import { sendRetrievalRequest } from '../../services/gp2gp';
 import { handleUpdateRequest } from './handle-update-request';
 import { logError, logInfo, logWarning } from '../../middleware/logging';
 import { createDeductionRequest } from '../../services/database/create-deduction-request';
-import config from '../../config/index';
+import { initializeConfig } from '../../config/index';
 import { setCurrentSpanAttributes } from '../../config/tracing';
 
 export const deductionRequestValidationRules = [
@@ -15,22 +15,32 @@ export const deductionRequestValidationRules = [
 ];
 
 export const deductionRequest = async (req, res) => {
+  const { url, nhsNumberPrefix, repositoryOdsCode } = initializeConfig();
+  const { nhsNumber } = req.body;
   const conversationId = uuid();
   setCurrentSpanAttributes({ conversationId });
 
   try {
-    const pdsRetrievalResponse = await sendRetrievalRequest(req.body.nhsNumber);
-    if (pdsRetrievalResponse.data.data.odsCode === config.repositoryOdsCode) {
+    if (!nhsNumberPrefix) {
+      logWarning('Deduction request failed as no nhs number prefix has been set');
+      res.sendStatus(404);
+      return;
+    }
+    if (!nhsNumber.startsWith(nhsNumberPrefix)) {
+      logWarning(
+        `Deduction request failed as nhs number does not start with expected prefix: ${nhsNumberPrefix}`
+      );
+      res.sendStatus(404);
+      return;
+    }
+    const pdsRetrievalResponse = await sendRetrievalRequest(nhsNumber);
+    if (pdsRetrievalResponse.data.data.odsCode === repositoryOdsCode) {
       logWarning('Patient is already assigned to Repo - requesting Health Record from itself');
     }
-    await createDeductionRequest(
-      conversationId,
-      req.body.nhsNumber,
-      pdsRetrievalResponse.data.data.odsCode
-    );
-    await handleUpdateRequest(pdsRetrievalResponse, req.body.nhsNumber, conversationId);
+    await createDeductionRequest(conversationId, nhsNumber, pdsRetrievalResponse.data.data.odsCode);
+    await handleUpdateRequest(pdsRetrievalResponse, nhsNumber, conversationId);
 
-    const statusEndpoint = `${config.url}/deduction-requests/${conversationId}`;
+    const statusEndpoint = `${url}/deduction-requests/${conversationId}`;
 
     logInfo('deductionRequest successful');
     res.set('Location', statusEndpoint).sendStatus(201);
