@@ -6,7 +6,7 @@ describe('End to end test of /deduction-requests/', () => {
   it(
     'should return a 201 from GP2GP Adaptor with a valid NHS number',
     () => {
-      const nhsNumber = process.env.NHS_ENVIRONMENT === 'dev' ? '9473480032' : '9442964410';
+      const nhsNumber = process.env.NHS_ENVIRONMENT === 'dev' ? '9692842339' : '9692295621';
 
       return expect(
         axios.post(
