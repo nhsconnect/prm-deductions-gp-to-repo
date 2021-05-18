@@ -21,16 +21,8 @@ export const deductionRequest = async (req, res) => {
   setCurrentSpanAttributes({ conversationId });
 
   try {
-    if (!nhsNumberPrefix) {
-      logWarning('Deduction request failed as no nhs number prefix has been set');
-      res.sendStatus(404);
-      return;
-    }
-    if (!nhsNumber.startsWith(nhsNumberPrefix)) {
-      logWarning(
-        `Deduction request failed as nhs number does not start with expected prefix: ${nhsNumberPrefix}`
-      );
-      res.sendStatus(404);
+    if (!checkNhsNumberPrefix(nhsNumberPrefix, nhsNumber)) {
+      res.sendStatus(422);
       return;
     }
     const pdsRetrievalResponse = await sendRetrievalRequest(nhsNumber);
@@ -50,4 +42,18 @@ export const deductionRequest = async (req, res) => {
       errors: err.message
     });
   }
+};
+
+const checkNhsNumberPrefix = (nhsNumberPrefix, nhsNumber) => {
+  if (!nhsNumberPrefix) {
+    logWarning('Deduction request failed as no nhs number prefix env variable has been set');
+    return false;
+  }
+  if (!nhsNumber.startsWith(nhsNumberPrefix)) {
+    logWarning(
+      `Deduction request failed as nhs number does not start with expected prefix: ${nhsNumberPrefix}`
+    );
+    return false;
+  }
+  return true;
 };

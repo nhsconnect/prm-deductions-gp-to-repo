@@ -185,25 +185,25 @@ describe('POST /deduction-requests/', () => {
     it('should not allow a deduction request and return 404 when nhs number prefix is empty', async () => {
       initializeConfig.mockReturnValueOnce({ nhsNumberPrefix: '' });
       const res = await request(app).post('/deduction-requests/').send({ nhsNumber: '1234567891' });
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
       expect(logWarning).toHaveBeenCalledWith(
-        'Deduction request failed as no nhs number prefix has been set'
+        'Deduction request failed as no nhs number prefix env variable has been set'
       );
     });
 
     it('should not allow a deduction request and return 404 when nhs number prefix is undefined', async () => {
       initializeConfig.mockReturnValueOnce({ url: 'fake-url' });
       const res = await request(app).post('/deduction-requests/').send({ nhsNumber: '1234567891' });
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
       expect(logWarning).toHaveBeenCalledWith(
-        'Deduction request failed as no nhs number prefix has been set'
+        'Deduction request failed as no nhs number prefix env variable has been set'
       );
     });
 
     it('should not allow a deduction request when the nhs number does not start with the expected prefix', async () => {
       initializeConfig.mockReturnValueOnce({ nhsNumberPrefix: '999' });
       const res = await request(app).post('/deduction-requests/').send({ nhsNumber: '1234567891' });
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(422);
       expect(logWarning).toHaveBeenCalledWith(
         'Deduction request failed as nhs number does not start with expected prefix: 999'
       );
