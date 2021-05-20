@@ -17,11 +17,11 @@ data "aws_ssm_parameter" "e2e_test_authorization_keys_for_gp_to_repo" {
 }
 
 data "aws_ssm_parameter" "gp2gp_authorization_keys" {
-  name = "/repo/${var.environment}/user-input/gp2gp-adaptor-authorization-keys"
+  name = "/repo/${var.environment}/user-input/api-keys/gp2gp-adaptor/gp-to-repo"
 }
 
 data "aws_ssm_parameter" "ehr_repo_authorization_keys" {
-  name = "/repo/${var.environment}/user-input/ehr-repo-authorization-keys"
+  name = "/repo/${var.environment}/user-input/api-keys/ehr-repo/gp-to-repo"
 }
 
 data "aws_ssm_parameter" "db-username" {
