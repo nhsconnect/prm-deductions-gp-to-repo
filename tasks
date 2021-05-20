@@ -74,22 +74,13 @@ function get_latest_commit_hash {
 
 function get_aws_account_id {
     AWS_ACCOUNT_ID=$(dojo -c Dojofile-infra "aws sts get-caller-identity | jq -r .Account")
- }
-
-function configure_aws_service_ehr_repo_auth_keys {
-    check_env
-    get_aws_account_id
-    parameter_name="/repo/${NHS_ENVIRONMENT}/user-input/ehr-repo-authorization-keys"
-    echo "${parameter_name}"
-    export EHR_REPO_AUTHORIZATION_KEYS=$(dojo -c Dojofile-infra "aws ssm get-parameter --with-decryption --region ${AWS_DEFAULT_REGION} --name  ${parameter_name} | jq -r .Parameter.Value")
 }
 
-function configure_aws_service_gp2gp_auth_keys {
+function configure_aws_service_e2e_test_auth_keys_for_gp_to_repo {
     check_env
     get_aws_account_id
-    parameter_name="/repo/${NHS_ENVIRONMENT}/user-input/gp2gp-adaptor-authorization-keys"
-    echo "${parameter_name}"
-    export GP2GP_AUTHORIZATION_KEYS=$(dojo -c Dojofile-infra "aws ssm get-parameter --with-decryption --region ${AWS_DEFAULT_REGION} --name  ${parameter_name} | jq -r .Parameter.Value")
+    parameter_name="/repo/${NHS_ENVIRONMENT}/user-input/api-keys/${NHS_SERVICE}/e2e-test"
+    export E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO=$(get_aws_ssm_secret ${parameter_name})
 }
 
 function configure_aws_service_auth_keys {
@@ -293,8 +284,7 @@ case "${command}" in
       ;;
   test_functional)
       configure_aws_service_auth_keys
-      configure_aws_service_gp2gp_auth_keys
-      configure_aws_service_ehr_repo_auth_keys
+      configure_aws_service_e2e_test_auth_keys_for_gp_to_repo
       configure_service_url
       dojo "./tasks _test_functional"
       ;;

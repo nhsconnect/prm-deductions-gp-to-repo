@@ -14,7 +14,7 @@ describe('End to end test of /deduction-requests/', () => {
           { nhsNumber },
           {
             headers: {
-              Authorization: process.env.AUTHORIZATION_KEYS
+              Authorization: process.env.E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO
             },
             adapter
           }
