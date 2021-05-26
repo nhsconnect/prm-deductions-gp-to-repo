@@ -122,3 +122,6 @@ dist
 
 # Dojo
 *.dojo
+
+# Imported utilities
+/utils/aws-helpers
