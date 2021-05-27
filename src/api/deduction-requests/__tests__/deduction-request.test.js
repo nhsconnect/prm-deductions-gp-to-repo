@@ -61,7 +61,7 @@ describe('POST /deduction-requests/', () => {
     });
 
     it('should return a 201 if :nhsNumber is numeric and 10 digits and Authorization Header provided', async () => {
-      request(app)
+      await request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: successNhsNumber })
         .expect(201)
@@ -72,7 +72,7 @@ describe('POST /deduction-requests/', () => {
         });
     });
     it('should call createDeductionRequest when patient is found in pds', async () => {
-      request(app)
+      await request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: successNhsNumber })
         .expect(() => {
