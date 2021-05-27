@@ -41,7 +41,7 @@ describe('sendHealthRecordRequest', () => {
     );
   });
 
-  it('should call axios post with body parameter practice ODS code', async done => {
+  it('should call axios post with body parameter practice ODS code', async () => {
     await sendHealthRecordRequest(nhsNumber, conversationId, odsCode);
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(axios.post).toHaveBeenCalledWith(
@@ -51,10 +51,9 @@ describe('sendHealthRecordRequest', () => {
       }),
       expect.anything()
     );
-    done();
   });
 
-  it('should call axios post with authorization header', async done => {
+  it('should call axios post with authorization header', async () => {
     await sendHealthRecordRequest(nhsNumber, conversationId, odsCode);
     expect(axios.post).toHaveBeenCalledTimes(1);
     expect(axios.post).toHaveBeenCalledWith(
@@ -66,6 +65,5 @@ describe('sendHealthRecordRequest', () => {
         })
       })
     );
-    done();
   });
 });

@@ -60,7 +60,7 @@ describe('POST /deduction-requests/', () => {
         .mockResolvedValue({ status: 503, data: 'could not update ods code on pds' });
     });
 
-    it('should return a 201 if :nhsNumber is numeric and 10 digits and Authorization Header provided', async done => {
+    it('should return a 201 if :nhsNumber is numeric and 10 digits and Authorization Header provided', async () => {
       request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: successNhsNumber })
@@ -69,10 +69,9 @@ describe('POST /deduction-requests/', () => {
           expect(res.header.location).toBe(
             `${initializeConfig().url}/deduction-requests/${conversationId}`
           );
-        })
-        .end(done);
+        });
     });
-    it('should call createDeductionRequest when patient is found in pds', async done => {
+    it('should call createDeductionRequest when patient is found in pds', async () => {
       request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: successNhsNumber })
@@ -82,8 +81,7 @@ describe('POST /deduction-requests/', () => {
             successNhsNumber,
             'B1234'
           );
-        })
-        .end(done);
+        });
     });
     it('should sendUpdateRequest with correct info when patient is found in PDS', done => {
       request(app)

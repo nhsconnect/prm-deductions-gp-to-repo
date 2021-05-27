@@ -11,7 +11,8 @@ describe('sendContinueRequest', () => {
   const host = 'http://localhost';
   const endpoint = `/health-record-requests/continue-message`;
   initializeConfig.mockReturnValue({
-    gp2gpUrl: host
+    gp2gpUrl: host,
+    gp2gpAuthKeys: 'auth-key-1'
   });
 
   const conversationId = uuid();
@@ -26,8 +27,8 @@ describe('sendContinueRequest', () => {
 
   it('should make a POST request to send continue message to GP practice', async () => {
     const continueScope = nock(host).post(endpoint, requestBody).reply(204);
+    console.log(continueScope, 'continue scope');
     await sendContinueRequest(conversationId, ehrExtractMessageId, gpOdsCode);
-
     expect(continueScope.isDone()).toBe(true);
     expect(logInfo).toHaveBeenCalledWith('Successfully sent continue message');
   });
