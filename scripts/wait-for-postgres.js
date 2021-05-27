@@ -3,6 +3,7 @@ import ModelFactory from '../src/models';
 const INTERVAL = 1000;
 let ATTEMPTS = 10;
 
+// eslint-disable-next-line no-unused-vars
 let db = false;
 
 const connect = () => {
