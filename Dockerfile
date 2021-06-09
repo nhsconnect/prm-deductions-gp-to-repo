@@ -9,7 +9,7 @@ COPY scripts/migrate-db.sh /usr/bin/run-gp-to-repo-server
 
 ENV AUTHORIZATION_KEYS="auth-key-1" \
   GP_TO_REPO_SKIP_MIGRATION=false \
-  NHS_ENVIRONMENT="" \
+  NHS_ENVIRONMENT=local \
   DATABASE_USER="" \
   DATABASE_PASSWORD="" \
   DATABASE_NAME="" \
