@@ -39,7 +39,7 @@ function check_nhs_service {
 
 function prepare_local_envs_for_ide {
   export DATABASE_HOST=localhost
-  envs=$(printenv | grep "NODE_ENV" && \
+  envs=$(printenv | grep "NHS_ENVIRONMENT" && \
           printenv | grep "DATABASE" && \
           printenv | grep "AUTHORIZATION_KEYS" && \
           printenv | grep "GP" && \
@@ -52,7 +52,7 @@ function prepare_local_envs_for_ide {
 }
 
 function configure_local_envs {
-  export NODE_ENV=local
+  export NHS_ENVIRONMENT=local
   export DATABASE_USER=deductions_user
   export DATABASE_PASSWORD=secret
   export DATABASE_NAME=deductions_test

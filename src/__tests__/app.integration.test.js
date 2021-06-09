@@ -84,7 +84,7 @@ describe('app', () => {
       expect(res.body).toEqual({
         version: '1',
         description: 'Health of GP to Repo service',
-        node_env: config.nodeEnv,
+        node_env: config.nhsEnvironment,
         details: {
           database: { type: 'postgresql', connection: true, writable: true }
         }

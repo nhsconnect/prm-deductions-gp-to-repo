@@ -3,7 +3,6 @@ import sequelizeConfig from './database';
 const portNumber = 3000;
 
 export const initializeConfig = () => ({
-  nodeEnv: process.env.NODE_ENV,
   gpToRepoAuthKeys: process.env.AUTHORIZATION_KEYS,
   gp2gpUrl: process.env.GP2GP_URL,
   gp2gpAuthKeys: process.env.GP2GP_AUTHORIZATION_KEYS,

@@ -10,7 +10,7 @@ export function getHealthCheck() {
     return {
       version: '1',
       description: 'Health of GP to Repo service',
-      node_env: config.nodeEnv,
+      node_env: config.nhsEnvironment,
       details: {
         database: db
       }
