@@ -1,11 +1,19 @@
 FROM node:12.14.0-alpine
 
 RUN apk update && \
-    apk add --no-cache bash tini postgresql-client && \
+    apk add --no-cache bash tini postgresql-client jq && \
     rm -rf /var/cache/apk/*
 
-# Migration script
-COPY scripts/migrate-db.sh /usr/bin/run-gp-to-repo-server
+RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/*
+
+COPY scripts/run-server.sh /usr/bin/run-gp-to-repo-server
+COPY scripts/load-api-keys.sh /app/scripts/load-api-keys.sh
 
 ENV AUTHORIZATION_KEYS="auth-key-1" \
   GP_TO_REPO_SKIP_MIGRATION=false \
