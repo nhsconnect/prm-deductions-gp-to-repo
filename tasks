@@ -52,7 +52,6 @@ function prepare_local_envs_for_ide {
 }
 
 function configure_local_envs {
-  export NHS_ENVIRONMENT=local
   export DATABASE_USER=deductions_user
   export DATABASE_PASSWORD=secret
   export DATABASE_NAME=deductions_test
