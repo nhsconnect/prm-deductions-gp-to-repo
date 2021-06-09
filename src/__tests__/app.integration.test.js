@@ -24,15 +24,15 @@ const DeductionRequest = ModelFactory.getByName(modelName);
 describe('app', () => {
   beforeEach(() => {
     logger.add(transportSpy);
-    process.env.AUTHORIZATION_KEYS = 'correct-key';
+    process.env.API_KEY_FOR_TEST = 'correct-key';
     axios.get.mockImplementation(() => Promise.resolve({ status: 200, data: retrievalResponse }));
     axios.patch.mockImplementation(() => Promise.resolve({ status: 204, data: {} }));
     axios.post.mockImplementation(() => Promise.resolve({ status: 204, data: {} }));
   });
 
   afterEach(() => {
-    if (process.env.AUTHORIZATION_KEYS) {
-      delete process.env.AUTHORIZATION_KEYS;
+    if (process.env.API_KEY_FOR_TEST) {
+      delete process.env.API_KEY_FOR_TEST;
     }
     if (process.env.NHS_NUMBER_PREFIX) {
       delete process.env.NHS_NUMBER_PREFIX;

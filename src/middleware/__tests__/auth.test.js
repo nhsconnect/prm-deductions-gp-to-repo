@@ -10,7 +10,7 @@ jest.mock('../../config');
 initializeConfig.mockReturnValue({
   nhsNumberPrefix: '000',
   url: 'url',
-  gpToRepoAuthKeys: 'correct-key'
+  consumerApiKeys: { API_KEY: 'correct-key' }
 });
 
 // In all other unit tests we want to pass through all of this logic and should therefore call jest.mock
@@ -27,23 +27,18 @@ describe('auth', () => {
     });
   });
 
-  describe('AUTHORIZATION_KEYS environment variables not provides', () => {
-    it('should return 412 if AUTHORIZATION_KEYS have not been set', done => {
-      initializeConfig.mockReturnValueOnce({ gpToRepoAuthKeys: '' });
+  describe('consumerApiKeys environment variables not available', () => {
+    it('should return 412 if consumerApiKeys is empty', done => {
+      initializeConfig.mockReturnValueOnce({
+        nhsNumberPrefix: '000',
+        url: 'url',
+        consumerApiKeys: {}
+      });
       request(app)
         .post('/deduction-requests/')
         .send({ nhsNumber: '0000000000' })
         .set('Authorization', 'correct-key')
         .expect(412)
-        .end(done);
-    });
-
-    it('should return an explicit error message in the body if AUTHORIZATION_KEYS have not been set', done => {
-      initializeConfig.mockReturnValueOnce({ gpToRepoAuthKeys: '' });
-      request(app)
-        .post('/deduction-requests/')
-        .send({ nhsNumber: '0000000000' })
-        .set('Authorization', 'correct-key')
         .expect(res => {
           expect(res.body).toEqual(
             expect.objectContaining({
