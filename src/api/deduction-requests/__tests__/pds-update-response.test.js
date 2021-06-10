@@ -23,10 +23,6 @@ describe('PATCH /deduction-requests/:conversationId/pds-updated', () => {
   const expectedNhsNumber = '1234567891';
   const odsCode = 'Y4321';
 
-  beforeEach(() => {
-    process.env.AUTHORIZATION_KEYS = 'correct-key';
-  });
-
   it('should call sendHealthRecordRequest with nhs number and return a 204', done => {
     getDeductionRequestByConversationId.mockResolvedValue({
       nhsNumber: expectedNhsNumber,

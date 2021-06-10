@@ -15,7 +15,6 @@ locals {
     { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value }
   ]
   secret_environment_variables = [
-    { name = "AUTHORIZATION_KEYS", valueFrom = data.aws_ssm_parameter.authorization_keys.arn },
     { name = "E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO", valueFrom = data.aws_ssm_parameter.e2e_test_authorization_keys_for_gp_to_repo.arn },
     { name = "GP2GP_AUTHORIZATION_KEYS", valueFrom = data.aws_ssm_parameter.gp2gp_authorization_keys.arn },
     { name = "EHR_REPO_AUTHORIZATION_KEYS", valueFrom = data.aws_ssm_parameter.ehr_repo_authorization_keys.arn},
@@ -31,7 +30,7 @@ resource "aws_ecs_task_definition" "task" {
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   execution_role_arn       = local.task_execution_role
-  task_role_arn             = local.task_role_arn
+  task_role_arn            = local.task_role_arn
 
 
   container_definitions = templatefile("${path.module}/templates/ecs-task-def.tmpl", {
