@@ -23,7 +23,7 @@ export const deductionRequest = async (req, res) => {
   try {
     if (!checkNhsNumberPrefix(nhsNumberPrefix, nhsNumber)) {
       const notASyntheticPatientMessage = "The NHS number provided is not one for a synthetic patient";
-      logWarning(notASyntheticPatientMessage)
+      logWarning(notASyntheticPatientMessage);
       res.status(422).json({
         errors: notASyntheticPatientMessage
       });
