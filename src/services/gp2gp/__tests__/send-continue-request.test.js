@@ -27,7 +27,6 @@ describe('sendContinueRequest', () => {
 
   it('should make a POST request to send continue message to GP practice', async () => {
     const continueScope = nock(host).post(endpoint, requestBody).reply(204);
-    console.log(continueScope, 'continue scope');
     await sendContinueRequest(conversationId, ehrExtractMessageId, gpOdsCode);
     expect(continueScope.isDone()).toBe(true);
     expect(logInfo).toHaveBeenCalledWith('Successfully sent continue message');
