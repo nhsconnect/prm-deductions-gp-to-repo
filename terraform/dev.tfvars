@@ -16,4 +16,4 @@ alb_deregistration_delay = 15
 
 database_name = "gp_to_repo"
 
-deductions_private_database_subnets  = ["10.20.111.0/24", "10.20.112.0/24"]
+deductions_private_database_subnets  = ["subnet-0a1ea7fccf76a709e", "subnet-0a54899ccf6b62a0c"]
