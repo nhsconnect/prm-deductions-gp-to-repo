@@ -8,7 +8,7 @@ locals {
     { name = "GP2GP_URL", value = "https://gp2gp-adaptor.${var.environment}.non-prod.patient-deductions.nhs.uk" },
     { name = "EHR_REPO_URL", value = "https://ehr-repo.${var.environment}.non-prod.patient-deductions.nhs.uk" },
     { name = "DATABASE_NAME", value = var.database_name },
-    { name = "DATABASE_HOST", value = data.aws_ssm_parameter.rds_endpoint.value },
+    { name = "DATABASE_HOST", value = aws_rds_cluster.gp_to_repo_db_cluster.endpoint},
     { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
     { name = "REPOSITORY_ODS_CODE", value = var.ods_code },
     { name = "REPOSITORY_ASID", value = var.asid },

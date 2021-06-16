@@ -24,10 +24,6 @@ data "aws_ssm_parameter" "db-password" {
   name = "/repo/${var.environment}/user-input/gp-to-repo-db-password"
 }
 
-data "aws_ssm_parameter" "rds_endpoint" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/gp-to-repo-rds-endpoint"
-}
-
 data "aws_ssm_parameter" "deductions_private_private_subnets" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-private-subnets"
 }
