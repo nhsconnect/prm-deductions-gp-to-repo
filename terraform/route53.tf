@@ -15,7 +15,7 @@ resource "aws_route53_record" "gp-to-repo" {
   name    = var.dns_name
   type    = "CNAME"
   ttl     = "300"
-  records = [data.aws_ssm_parameter.deductions_private_alb_internal_dns.value]
+  records = [aws_alb.alb-internal.dns_name]
 }
 
 resource "aws_acm_certificate" "gp-to-repo-cert" {

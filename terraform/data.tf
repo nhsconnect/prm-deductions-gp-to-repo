@@ -28,32 +28,12 @@ data "aws_ssm_parameter" "rds_endpoint" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/gp-to-repo-rds-endpoint"
 }
 
-data "aws_ssm_parameter" "deductions_private_ecs_cluster_id" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-ecs-cluster-id"
-}
-
-data "aws_ssm_parameter" "deductions_private_gp_to_repo_sg_id" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-gp-to-repo-sg-id"
-}
-
 data "aws_ssm_parameter" "deductions_private_private_subnets" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-private-subnets"
 }
 
 data "aws_ssm_parameter" "deductions_private_vpc_id" {
   name = "/repo/${var.environment}/output/prm-deductions-infra/private-vpc-id"
-}
-
-data "aws_ssm_parameter" "deductions_private_int_alb_httpl_arn" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-int-alb-httpl-arn"
-}
-
-data "aws_ssm_parameter" "deductions_private_int_alb_httpsl_arn" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-int-alb-httpsl-arn"
-}
-
-data "aws_ssm_parameter" "deductions_private_alb_internal_dns" {
-  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-alb-internal-dns"
 }
 
 data "aws_ssm_parameter" "nhs_number_prefix" {
