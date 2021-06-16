@@ -15,5 +15,3 @@ service_desired_count = "1"
 alb_deregistration_delay = 15
 
 database_name = "gp_to_repo"
-
-deductions_private_database_subnets  = ["subnet-0a1ea7fccf76a709e", "subnet-0a54899ccf6b62a0c"]

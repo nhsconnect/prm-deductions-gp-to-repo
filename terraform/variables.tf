@@ -35,7 +35,3 @@ variable "alb_deregistration_delay" {}
 variable "database_name" {
   type = string
 }
-
-variable "deductions_private_database_subnets" {
-  type = list
-}

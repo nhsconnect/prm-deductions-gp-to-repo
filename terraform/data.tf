@@ -35,3 +35,7 @@ data "aws_ssm_parameter" "deductions_private_vpc_id" {
 data "aws_ssm_parameter" "nhs_number_prefix" {
   name = "/repo/${var.environment}/user-input/nhs-number-prefix"
 }
+
+data "aws_ssm_parameter" "deductions_private_db_subnets" {
+  name = "/repo/${var.environment}/output/prm-deductions-infra/deductions-private-database-subnets"
+}
