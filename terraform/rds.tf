@@ -40,7 +40,7 @@ resource "aws_ssm_parameter" "gp_to_repo_rds_endpoint" {
 
 resource "aws_db_subnet_group" "gp_to_repo_db_cluster_subnet_group" {
   name       = "${var.environment}-gp-to-repo-db-subnet-group"
-  subnet_ids = var.deductions_private_database_subnets
+  subnet_ids = split(",", data.aws_ssm_parameter.deductions_private_db_subnets.value)
 
   tags = {
     Name = "${var.environment}-gp-to-repo-db-subnet-group"
