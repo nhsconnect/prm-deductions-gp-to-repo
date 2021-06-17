@@ -5,9 +5,7 @@ import { Status } from '../../models/deduction-request';
 
 export const handleUpdateRequest = async (pdsRetrievalResponse, nhsNumber, conversationId) => {
   if (pdsRetrievalResponse.status === 200) {
-    logInfo('200 GP2GP response received', {
-      response: pdsRetrievalResponse
-    });
+    logInfo('Successful PDS Retrieval');
 
     const updateResponse = await sendUpdateRequest(
       pdsRetrievalResponse.data.data.serialChangeNumber,

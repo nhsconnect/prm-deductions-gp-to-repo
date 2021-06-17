@@ -52,10 +52,9 @@ describe('Deduction request repository', () => {
     });
     await updateDeductionRequestStatus(conversationId, expectedStatus);
 
-    expect(logInfo).toHaveBeenCalledWith('Successfully updated deduction request status', {
-      conversationId,
-      status: expectedStatus
-    });
+    expect(logInfo).toHaveBeenCalledWith(
+      'Successfully updated deduction request status to: pds_updated'
+    );
 
     const deductionRequest = await DeductionRequest.findByPk(conversationId);
 

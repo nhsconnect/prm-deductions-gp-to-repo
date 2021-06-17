@@ -6,7 +6,7 @@ export function getHealthCheck() {
   logInfo('Starting health check');
 
   return checkDbHealth().then(db => {
-    logInfo('Database health check', { db });
+    logInfo('Database health check');
     return {
       version: '1',
       description: 'Health of GP to Repo service',

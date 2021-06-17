@@ -19,5 +19,5 @@ export const updateDeductionRequestStatus = async (conversationId, status) => {
       }
     );
   });
-  logInfo('Successfully updated deduction request status', { conversationId, status });
+  logInfo(`Successfully updated deduction request status to: ${status}`);
 };
