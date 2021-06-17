@@ -23,7 +23,7 @@ resource "aws_alb" "alb-internal" {
 # Exists to be referred by the ECS task of gp to repo
 resource "aws_security_group" "gp_to_repo_alb" {
   name        = "${var.environment}-alb-${var.component_name}"
-  description = "gp to repo ALB security group"
+  description = "gp-to-repo ALB security group"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   tags = {
@@ -135,11 +135,11 @@ resource "aws_lb_listener_certificate" "gp-to-repo-int-listener-cert" {
 
 resource "aws_security_group" "alb_to_gp_to_repo_ecs" {
   name        = "${var.environment}-alb-to-${var.component_name}-ecr"
-  description = "Allows gp to repo ALB connections to gp to repo component task"
+  description = "Allows gp to repo ALB connections to gp-to-repo component task"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   egress {
-    description = "Allow outbound connections to gp to repo ECS Task"
+    description = "Allow outbound connections to gp-to-repo ECS Task"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -155,7 +155,7 @@ resource "aws_security_group" "alb_to_gp_to_repo_ecs" {
 
 resource "aws_security_group" "service_to_gp_to_repo" {
   name        = "${var.environment}-service-to-${var.component_name}"
-  description = "controls access from repo services to gp to repo"
+  description = "controls access from repo services to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   tags = {
@@ -165,7 +165,7 @@ resource "aws_security_group" "service_to_gp_to_repo" {
   }
 }
 
-resource "aws_ssm_parameter" "service_to_gp2gp_adaptor" {
+resource "aws_ssm_parameter" "service_to_gp_to_repo" {
   name = "/repo/${var.environment}/output/${var.repo_name}/service-to-gp-to-repo-sg-id"
   type = "String"
   value = aws_security_group.service_to_gp_to_repo.id
@@ -177,11 +177,11 @@ resource "aws_ssm_parameter" "service_to_gp2gp_adaptor" {
 
 resource "aws_security_group" "vpn_to_gp_to_repo" {
   name        = "${var.environment}-vpn-to-${var.component_name}"
-  description = "controls access from vpn to gp to repo"
+  description = "controls access from vpn to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   ingress {
-    description = "Allow vpn to access gp to repo ALB"
+    description = "Allow vpn to access gp-to-repo ALB"
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
@@ -197,11 +197,11 @@ resource "aws_security_group" "vpn_to_gp_to_repo" {
 
 resource "aws_security_group" "gocd_to_gp_to_repo" {
   name        = "${var.environment}-gocd-to-${var.component_name}"
-  description = "controls access from gocd to gp to repo"
+  description = "controls access from gocd to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   ingress {
-    description = "Allow gocd to access gp to repo ALB"
+    description = "Allow gocd to access gp-to-repo ALB"
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
