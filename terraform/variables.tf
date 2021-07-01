@@ -34,4 +34,5 @@ variable "alb_deregistration_delay" {}
 
 variable "database_name" {
   type = string
+  default = "gptorepodb"
 }

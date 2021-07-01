@@ -125,3 +125,4 @@ dist
 
 # Imported utilities
 /utils/aws-helpers
+/terraform/.terraform.lock.hcl

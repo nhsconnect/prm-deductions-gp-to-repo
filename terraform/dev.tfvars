@@ -13,5 +13,3 @@ port        = 3000
 service_desired_count = "1"
 
 alb_deregistration_delay = 15
-
-database_name = "gp_to_repo"
