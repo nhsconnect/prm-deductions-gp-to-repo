@@ -9,11 +9,15 @@ locals {
     { name = "EHR_REPO_URL", value = "https://ehr-repo.${var.environment}.non-prod.patient-deductions.nhs.uk" },
     { name = "DATABASE_NAME", value = aws_rds_cluster.gp_to_repo_db_cluster.database_name },
     { name = "DATABASE_HOST", value = aws_rds_cluster.gp_to_repo_db_cluster.endpoint},
+    { name = "DATABASE_USER", value = var.application_database_user },
     { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
     { name = "REPOSITORY_ODS_CODE", value = var.ods_code },
     { name = "REPOSITORY_ASID", value = var.asid },
     { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value },
-    { name = "GP_TO_REPO_SKIP_MIGRATION", value = "true" }
+    { name = "AWS_REGION", value = var.region },
+    { name = "GP_TO_REPO_SKIP_MIGRATION", value = "true" },
+    { name = "GP_TO_REPO_USE_AWS_RDS_CREDENTIALS", value = "true" },
+    { name = "USE_SSL_FOR_DB", value = "true" }
   ]
   secret_environment_variables = [
     { name = "E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO", valueFrom = data.aws_ssm_parameter.e2e_test_authorization_keys_for_gp_to_repo.arn },

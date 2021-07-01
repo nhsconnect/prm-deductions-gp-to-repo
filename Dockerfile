@@ -17,6 +17,7 @@ RUN apk add --no-cache postgresql-dev g++ make
 COPY scripts/run-server.sh /usr/bin/run-gp-to-repo-server
 COPY scripts/load-api-keys.sh /app/scripts/load-api-keys.sh
 COPY scripts/migrate-db.sh /app/scripts/migrate-db.sh
+COPY scripts/load-rds-credentials.sh /app/scripts/load-rds-credentials.sh
 
 ENV AUTHORIZATION_KEYS="auth-key-1" \
   GP_TO_REPO_SKIP_MIGRATION=false \

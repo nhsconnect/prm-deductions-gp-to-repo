@@ -36,3 +36,8 @@ variable "database_name" {
   type = string
   default = "gptorepodb"
 }
+
+variable "application_database_user" {
+  default = "application_user"
+  description = "Needs to match with the user created in db-roles tf plan"
+}
