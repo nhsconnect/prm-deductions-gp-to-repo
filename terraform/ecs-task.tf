@@ -12,7 +12,8 @@ locals {
     { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
     { name = "REPOSITORY_ODS_CODE", value = var.ods_code },
     { name = "REPOSITORY_ASID", value = var.asid },
-    { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value }
+    { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value },
+    { name = "GP_TO_REPO_SKIP_MIGRATION", value = "true" }
   ]
   secret_environment_variables = [
     { name = "E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO", valueFrom = data.aws_ssm_parameter.e2e_test_authorization_keys_for_gp_to_repo.arn },

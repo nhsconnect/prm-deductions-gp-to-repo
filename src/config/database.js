@@ -9,4 +9,10 @@ const base_config = {
   logging: false
 };
 
+if (process.env.USE_SSL_FOR_DB === 'true') {
+  base_config.ssl = true;
+  base_config.native = true;
+  base_config.dialectOptions = { ssl: 'require' };
+}
+
 module.exports = base_config;
