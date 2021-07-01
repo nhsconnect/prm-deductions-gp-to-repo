@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NHS_SERVICE=go-to-repo
+NHS_SERVICE=gp-to-repo
 DB_CONNECTION_TIMEOUT=30
 
 timestamp() {
