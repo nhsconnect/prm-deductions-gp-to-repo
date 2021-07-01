@@ -9,6 +9,10 @@ Follow the links to download
 - [Docker](https://docs.docker.com/install/)
 - [kudulab/dojo](https://github.com/kudulab/dojo#installation)
 
+In order to run npm install locally on your host, you'll need to install postgresql:
+```
+brew install postgresql
+```
 
 ## Access to AWS
 
