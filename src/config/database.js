@@ -1,4 +1,5 @@
 require('dotenv').config();
+const use_rds_credentials = process.env.REPO_TO_GP_USE_AWS_RDS_CREDENTIALS === 'true';
 
 const base_config = {
   username: process.env.DATABASE_USER,
@@ -6,7 +7,8 @@ const base_config = {
   database: process.env.DATABASE_NAME,
   host: process.env.DATABASE_HOST,
   dialect: 'postgres',
-  logging: false
+  logging: false,
+  use_rds_credentials
 };
 
 if (process.env.USE_SSL_FOR_DB === 'true') {
