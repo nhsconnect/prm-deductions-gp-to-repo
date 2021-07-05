@@ -1,5 +1,5 @@
 require('dotenv').config();
-const use_rds_credentials = process.env.REPO_TO_GP_USE_AWS_RDS_CREDENTIALS === 'true';
+const use_rds_credentials = process.env.GP_TO_REPO_USE_AWS_RDS_CREDENTIALS === 'true';
 
 const base_config = {
   username: process.env.DATABASE_USER,
