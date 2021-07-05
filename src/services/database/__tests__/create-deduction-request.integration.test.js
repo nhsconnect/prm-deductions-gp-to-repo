@@ -20,7 +20,6 @@ describe('createDeductionRequest', () => {
   it('should call logInfo if data persisted correctly', () => {
     const conversationId = uuid();
     return createDeductionRequest(conversationId, nhsNumber, odsCode).then(() => {
-      expect(logInfo).toHaveBeenCalledTimes(1);
       return expect(logInfo).toHaveBeenCalledWith('Deduction request has been stored');
     });
   });
