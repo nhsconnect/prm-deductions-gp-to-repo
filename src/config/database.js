@@ -8,12 +8,7 @@ const base_config = {
   host: process.env.DATABASE_HOST,
   dialect: 'postgres',
   logging: false,
-  use_rds_credentials,
-  pool: {
-    max: 1,
-    min: 0,
-    maxUses: 10
-  }
+  use_rds_credentials
 };
 
 if (process.env.USE_SSL_FOR_DB === 'true') {
