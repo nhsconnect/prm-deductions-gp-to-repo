@@ -29,7 +29,7 @@ class ModelFactory {
       this.sequelize.close();
     }
 
-    let signer;
+    let signer, getAuthTokenAsync;
     if (this.base_config.use_rds_credentials) {
       signer = new Signer({
         credentials: new AWS.RemoteCredentials({
@@ -43,8 +43,16 @@ class ModelFactory {
         port: 5432
       });
 
-      logInfo('Obtaining first RDS DB Auth token');
-      this.base_config.password = signer.getAuthToken();
+      getAuthTokenAsync = () =>
+        new Promise((resolve, reject) => {
+          signer.getAuthToken((err, token) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(token);
+            }
+          });
+        });
     }
 
     this.sequelize = new Sequelize(
@@ -55,9 +63,13 @@ class ModelFactory {
     );
 
     if (this.base_config.use_rds_credentials) {
-      this.sequelize.beforeConnect(config => {
+      this.sequelize.beforeConnect(async config => {
         logInfo('Obtaining new RDS DB Auth token');
-        config.password = signer.getAuthToken();
+        try {
+          config.password = await getAuthTokenAsync();
+        } catch (err) {
+          logError('Error while retrieving auth token for RDS ', err);
+        }
       });
     }
 
