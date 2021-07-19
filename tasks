@@ -100,6 +100,25 @@ function configure_aws_service_e2e_test_auth_keys_for_gp_to_repo {
     export E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO=$(get_aws_ssm_secret ${parameter_name})
 }
 
+function create_secret_ssm_param {
+  secret_id="$1"
+  value="$2"
+  set +e
+  aws ssm get-parameter --region $AWS_DEFAULT_REGION --name "$secret_id" | jq -r ".Parameter.Value" > /dev/null
+  if [[ $? == 0 ]]; then
+    echo "Secret at $secret_id already exists"
+  else
+    set -e
+    echo "Secret does not exists. Creating $secret_id"
+    aws ssm put-parameter \
+     --region $AWS_DEFAULT_REGION \
+     --name "$secret_id" \
+     --type SecureString \
+     --overwrite \
+     --value "$value"
+  fi
+}
+
 function generate_secret_ssm_param {
   value=$(openssl rand -base64 24  | tr -d "/@\'+")
   create_secret_ssm_param "$1" "$value"
