@@ -94,10 +94,8 @@ function get_aws_account_id {
 }
 
 function configure_aws_service_e2e_test_auth_keys_for_gp_to_repo {
-    check_env
-    get_aws_account_id
     parameter_name="/repo/${NHS_ENVIRONMENT}/user-input/api-keys/${NHS_SERVICE}/e2e-test"
-    export E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO=$(get_aws_ssm_secret ${parameter_name})
+    export E2E_TEST_AUTHORIZATION_KEYS_FOR_GP_TO_REPO=$(_get_aws_ssm_secret ${parameter_name})
 }
 
 function create_secret_ssm_param {
@@ -339,10 +337,12 @@ case "${command}" in
       dojo -c Dojofile-itest "./tasks _test_integration"
       ;;
   _test_functional)
+      check_env
+      _assume_environment_role $NHS_ENVIRONMENT
+      configure_aws_service_e2e_test_auth_keys_for_gp_to_repo
       test_functional
       ;;
   test_functional)
-      configure_aws_service_e2e_test_auth_keys_for_gp_to_repo
       configure_service_url
       dojo "./tasks _test_functional"
       ;;
