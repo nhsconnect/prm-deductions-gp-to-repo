@@ -17,7 +17,8 @@ locals {
     { name = "AWS_REGION", value = var.region },
     { name = "GP_TO_REPO_SKIP_MIGRATION", value = "true" },
     { name = "GP_TO_REPO_USE_AWS_RDS_CREDENTIALS", value = "true" },
-    { name = "USE_SSL_FOR_DB", value = "true" }
+    { name = "USE_SSL_FOR_DB", value = "true" },
+    { name = "LOG_LEVEL", value = var.log_level }
   ]
   secret_environment_variables = [
     { name = "GP2GP_AUTHORIZATION_KEYS", valueFrom = data.aws_ssm_parameter.gp2gp_authorization_keys.arn },
@@ -112,4 +113,3 @@ to_port = 443
 security_group_id = data.aws_ssm_parameter.service-to-gp2gp-adaptor-sg-id.value
 source_security_group_id = local.ecs_task_sg_id
 }
-
