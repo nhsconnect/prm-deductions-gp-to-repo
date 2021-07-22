@@ -8,16 +8,17 @@ describe('End to end test of /deduction-requests/', () => {
     () => {
       const testData = {
         dev: {
-          nhsNumber: 9692842339
+          nhsNumber: '9692842339'
         },
         test: {
-          nhsNumber: 9692295621
+          nhsNumber: '9692295621'
         },
         'pre-prod': {
-          nhsNumber: 9693642120
+          nhsNumber: '9693642120'
         }
       };
       const { nhsNumber } = testData[process.env.NHS_ENVIRONMENT];
+
       return expect(
         axios.post(
           `${process.env.SERVICE_URL}/deduction-requests/`,
