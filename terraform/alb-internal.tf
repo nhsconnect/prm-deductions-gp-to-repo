@@ -155,7 +155,7 @@ resource "aws_security_group" "alb_to_gp_to_repo_ecs" {
 
 resource "aws_security_group" "service_to_gp_to_repo" {
   name        = "${var.environment}-service-to-${var.component_name}"
-  description = "controls access from repo services to gp-to-repo"
+  description = "Controls access from repo services to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   tags = {
@@ -177,7 +177,7 @@ resource "aws_ssm_parameter" "service_to_gp_to_repo" {
 
 resource "aws_security_group" "vpn_to_gp_to_repo" {
   name        = "${var.environment}-vpn-to-${var.component_name}"
-  description = "controls access from vpn to gp-to-repo"
+  description = "Controls access from vpn to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   ingress {
@@ -197,7 +197,7 @@ resource "aws_security_group" "vpn_to_gp_to_repo" {
 
 resource "aws_security_group" "gocd_to_gp_to_repo" {
   name        = "${var.environment}-gocd-to-${var.component_name}"
-  description = "controls access from gocd to gp-to-repo"
+  description = "Controls access from gocd to gp-to-repo"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
   ingress {
