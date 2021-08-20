@@ -124,7 +124,7 @@ dist
 *.dojo
 
 # Imported utilities
-/utils/aws-helpers
+/utils/*/aws-helpers
 /terraform/.terraform.lock.hcl
 /terraform-db-roles/.terraform.lock.hcl
 /terraform-db-roles/dev-db-roles.tfplan
