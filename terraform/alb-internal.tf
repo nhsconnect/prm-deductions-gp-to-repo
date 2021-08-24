@@ -134,7 +134,7 @@ resource "aws_lb_listener_certificate" "gp-to-repo-int-listener-cert" {
 }
 
 resource "aws_security_group" "alb_to_gp_to_repo_ecs" {
-  name        = "${var.environment}-alb-to-${var.component_name}-ecr"
+  name        = "${var.environment}-alb-to-${var.component_name}-ecs"
   description = "Allows gp to repo ALB connections to gp-to-repo component task"
   vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
 
@@ -147,7 +147,7 @@ resource "aws_security_group" "alb_to_gp_to_repo_ecs" {
   }
 
   tags = {
-    Name = "${var.environment}-alb-to-${var.component_name}-ecr"
+    Name = "${var.environment}-alb-to-${var.component_name}-ecs"
     CreatedBy   = var.repo_name
     Environment = var.environment
   }
