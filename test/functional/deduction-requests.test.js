@@ -8,7 +8,7 @@ describe('End to end test of /deduction-requests/', () => {
     () => {
       const testData = {
         dev: {
-          nhsNumber: '9692842339'
+          nhsNumber: '9693795954'
         },
         test: {
           nhsNumber: '9692295621'
