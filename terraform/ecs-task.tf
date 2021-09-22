@@ -87,6 +87,26 @@ resource "aws_security_group" "ecs-tasks-sg" {
   }
 }
 
+resource "aws_security_group" "vpn_to_gp_to_repo_ecs" {
+  name        = "${var.environment}-vpn-to-${var.component_name}-ecs"
+  description = "Controls access from vpn to gp-to-repo ecs"
+  vpc_id      = data.aws_ssm_parameter.deductions_private_vpc_id.value
+
+  ingress {
+    description = "Allow vpn to access gp-to-repo ecs"
+    protocol    = "tcp"
+    from_port   = 3000
+    to_port     = 3000
+    security_groups = [data.aws_ssm_parameter.vpn_sg_id.value]
+  }
+
+  tags = {
+    Name = "${var.environment}-vpn-to-${var.component_name}-sg"
+    CreatedBy   = var.repo_name
+    Environment = var.environment
+  }
+}
+
 data "aws_ssm_parameter" "service-to-ehr-repo-sg-id" {
   name = "/repo/${var.environment}/output/prm-deductions-ehr-repository/service-to-ehr-repo-sg-id"
 }
