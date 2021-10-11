@@ -1,7 +1,7 @@
 locals {
   task_role_arn       = aws_iam_role.component-ecs-role.arn
   task_execution_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.environment}-${var.component_name}-EcsTaskRole"
-  task_ecr_url        = data.aws_vpc_endpoint.ecr-dkr.dns_entry[0].dns_name
+  task_ecr_url        = "${data.aws_vpc_endpoint.ecr-dkr.dns_entry[0].dns_name}/${data.aws_caller_identity.current.account_id}"
   task_log_group      = "/nhs/deductions/${var.environment}-${data.aws_caller_identity.current.account_id}/${var.component_name}"
   environment_variables = [
     { name = "NHS_ENVIRONMENT", value = var.environment },
