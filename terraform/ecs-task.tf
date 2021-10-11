@@ -73,11 +73,11 @@ resource "aws_security_group" "ecs-tasks-sg" {
   }
 
   egress {
-    description = "Allow outbound to deductions private"
+    description = "Allow outbound to deductions private and deductions core"
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = [data.aws_vpc.deductions-private.cidr_block]
+    cidr_blocks = [data.aws_vpc.deductions-private.cidr_block, data.aws_vpc.deductions-core.cidr_block]
   }
 
   egress {
@@ -152,6 +152,10 @@ data "aws_ssm_parameter" "service-to-ehr-repo-sg-id" {
 
 data "aws_vpc" "deductions-private" {
   id = data.aws_ssm_parameter.deductions_private_vpc_id.value
+}
+
+data "aws_vpc" "deductions-core" {
+  id = data.aws_ssm_parameter.deductions_core_vpc_id.value
 }
 
 data "aws_vpc_endpoint" "ecr-dkr" {
