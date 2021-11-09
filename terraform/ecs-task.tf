@@ -185,9 +185,11 @@ data "aws_vpc_endpoint" "s3" {
 }
 
 data "aws_ssm_parameter" "ods_code" {
+  count = var.is_prod ? 1 : 0
   name = "/repo/${var.environment}/user-input/external/gp2gp-adaptor-deductions-ods-code"
 }
 
 data "aws_ssm_parameter" "asid" {
+  count = var.is_prod ? 1 : 0
   name = "/repo/${var.environment}/user-input/asid"
 }
