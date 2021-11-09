@@ -314,8 +314,8 @@ pipelines:
         type: configrepo
         blacklist:
           - docs/**/*.*
-      test_env:
-        pipeline: prm-deductions-gp-to-repo.pre-prd
+      pre-prod_env:
+        pipeline: prm-deductions-gp-to-repo.pre-prod
         stage: deploy
       base_infra:
         pipeline: prm-deductions-infra
