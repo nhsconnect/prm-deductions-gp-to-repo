@@ -3,8 +3,6 @@ component_name = "gp-to-repo"
 dns_name       = "gp-to-repo"
 repo_name      = "prm-deductions-gp-to-repo"
 
-is_prod = true
-
 task_cpu    = 256
 task_memory = 512
 port        = 3000

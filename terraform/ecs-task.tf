@@ -11,8 +11,8 @@ locals {
     { name = "DATABASE_HOST", value = aws_rds_cluster.gp_to_repo_db_cluster.endpoint},
     { name = "DATABASE_USER", value = var.application_database_user },
     { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
-    { name = "REPOSITORY_ODS_CODE", value = var.is_prod ? data.aws_ssm_parameter.ods_code.value : var.ods_code},
-    { name = "REPOSITORY_ASID", value = var.is_prod ? data.aws_ssm_parameter.asid.value : var.asid },
+    { name = "REPOSITORY_ODS_CODE", value = data.aws_ssm_parameter.ods_code.value},
+    { name = "REPOSITORY_ASID", value = data.aws_ssm_parameter.asid.value },
     { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value },
     { name = "AWS_REGION", value = var.region },
     { name = "GP_TO_REPO_SKIP_MIGRATION", value = "true" },
@@ -185,11 +185,9 @@ data "aws_vpc_endpoint" "s3" {
 }
 
 data "aws_ssm_parameter" "ods_code" {
-  count = var.is_prod ? 1 : 0
   name = "/repo/${var.environment}/user-input/external/gp2gp-adaptor-deductions-ods-code"
 }
 
 data "aws_ssm_parameter" "asid" {
-  count = var.is_prod ? 1 : 0
   name = "/repo/${var.environment}/user-input/asid"
 }

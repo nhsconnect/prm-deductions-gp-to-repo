@@ -10,18 +10,6 @@ variable "repo_name" {
 
 variable "environment" {}
 
-variable "ods_code" {
-  description = "repository ods code"
-}
-
-variable "asid" {
-  description = "repository asid"
-}
-
-variable "is_prod" {
-  default = false
-}
-
 variable "component_name" {}
 
 variable "dns_name" {}

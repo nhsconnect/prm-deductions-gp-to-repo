@@ -3,9 +3,6 @@ component_name = "gp-to-repo"
 dns_name       = "gp-to-repo"
 repo_name      = "prm-deductions-gp-to-repo"
 
-ods_code = "B86041"
-asid = "200000001161"
-
 task_cpu    = 256
 task_memory = 512
 port        = 3000
