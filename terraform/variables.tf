@@ -18,6 +18,8 @@ variable "asid" {
   description = "repository asid"
 }
 
+variable "is_prod" {}
+
 variable "component_name" {}
 
 variable "dns_name" {}
