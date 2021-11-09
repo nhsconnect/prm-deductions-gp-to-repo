@@ -18,7 +18,9 @@ variable "asid" {
   description = "repository asid"
 }
 
-variable "is_prod" {}
+variable "is_prod" {
+  default = false
+}
 
 variable "component_name" {}
 
