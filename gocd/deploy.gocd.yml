@@ -339,6 +339,9 @@ pipelines:
             plan: *plan_certs
       - deploy_certs:
           clean_workspace: true
+          approval:
+            type: manual
+            allow_only_on_success: true
           jobs:
             deploy: *deploy_certs
       - plan:
@@ -347,6 +350,9 @@ pipelines:
             plan: *plan
       - deploy:
           clean_workspace: true
+          approval:
+            type: manual
+            allow_only_on_success: true
           jobs:
             deploy: *deploy
       - plan_db:
@@ -355,6 +361,9 @@ pipelines:
             plan_db: *plan_db
       - deploy_db:
           clean_workspace: true
+          approval:
+            type: manual
+            allow_only_on_success: true
           jobs:
             deploy_db: *deploy_db
 #      - functional:
