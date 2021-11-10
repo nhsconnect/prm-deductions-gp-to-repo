@@ -189,7 +189,7 @@ pipelines:
           - docs/**/*.*
       dev_env:
         pipeline: prm-deductions-gp-to-repo.dev
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_test
@@ -253,7 +253,7 @@ pipelines:
           - docs/**/*.*
       test_env:
         pipeline: prm-deductions-gp-to-repo.test
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_pre_prod
@@ -316,7 +316,7 @@ pipelines:
           - docs/**/*.*
       pre-prod_env:
         pipeline: prm-deductions-gp-to-repo.pre-prod
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_prod
