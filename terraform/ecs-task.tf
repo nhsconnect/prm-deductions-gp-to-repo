@@ -5,12 +5,12 @@ locals {
   task_log_group      = "/nhs/deductions/${var.environment}-${data.aws_caller_identity.current.account_id}/${var.component_name}"
   environment_variables = [
     { name = "NHS_ENVIRONMENT", value = var.environment },
-    { name = "GP2GP_URL", value = "https://gp2gp-adaptor.${var.environment}.non-prod.patient-deductions.nhs.uk" },
-    { name = "EHR_REPO_URL", value = "https://ehr-repo.${var.environment}.non-prod.patient-deductions.nhs.uk" },
+    { name = "GP2GP_URL", value = "https://gp2gp-adaptor.${var.environment}.${var.env_url_suffix}" },
+    { name = "EHR_REPO_URL", value = "https://ehr-repo.${var.environment}.${var.env_url_suffix}" },
     { name = "DATABASE_NAME", value = aws_rds_cluster.gp_to_repo_db_cluster.database_name },
     { name = "DATABASE_HOST", value = aws_rds_cluster.gp_to_repo_db_cluster.endpoint},
     { name = "DATABASE_USER", value = var.application_database_user },
-    { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.non-prod.patient-deductions.nhs.uk"},
+    { name = "SERVICE_URL", value = "https://gp-to-repo.${var.environment}.${var.env_url_suffix}"},
     { name = "REPOSITORY_ODS_CODE", value = data.aws_ssm_parameter.ods_code.value},
     { name = "REPOSITORY_ASID", value = data.aws_ssm_parameter.asid.value },
     { name = "NHS_NUMBER_PREFIX", value = data.aws_ssm_parameter.nhs_number_prefix.value },

@@ -15,3 +15,5 @@ log_level = "info"
 
 grant_access_through_vpn = true
 enable_rds_cluster_deletion_protection = true
+
+env_url_suffix = "patient-deductions.nhs.uk"
