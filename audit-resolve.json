@@ -19,6 +19,21 @@
       "decision": "ignore",
       "madeAt": 1634659572088,
       "expiresAt": 1637251557496
+    },
+    "1004946|npm-audit-resolver>yargs-unparser>yargs>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1637591770069,
+      "expiresAt": 1640183755732
+    },
+    "1004946|npm-audit-resolver>yargs-unparser>yargs>cliui>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1637591770069,
+      "expiresAt": 1640183755732
+    },
+    "1004946|npm-audit-resolver>yargs-unparser>yargs>cliui>wrap-ansi>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1637591770069,
+      "expiresAt": 1640183755732
     }
   },
   "rules": {},
