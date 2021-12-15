@@ -34,6 +34,10 @@
       "decision": "ignore",
       "madeAt": 1637591770069,
       "expiresAt": 1640183755732
+    },
+    "1006767|swagger-ui-express>swagger-ui-dist": {
+      "decision": "fix",
+      "madeAt": 1639561892899
     }
   },
   "rules": {},
