@@ -119,6 +119,7 @@ dist
 # Local .terraform directories
 **/.terraform/*
 /*.tfplan
+terraform/*.tfplan
 
 # Dojo
 *.dojo
