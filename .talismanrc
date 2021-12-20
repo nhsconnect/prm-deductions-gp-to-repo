@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: Dojofile-infra
+  checksum: 507d384beb41feb215ea7e07992fa0524882d486600502f76d6114d88837a71f
+version: ""
