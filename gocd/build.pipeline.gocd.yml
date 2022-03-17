@@ -92,4 +92,4 @@ pipelines:
                     command: /bin/bash
                     arguments:
                       - -c
-                      - ./tasks test_docker
+                      - echo usually i would ./tasks test_docker but it needs to include external db migration
