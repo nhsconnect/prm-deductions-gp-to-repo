@@ -1,4 +1,5 @@
 # prm-deductions-gp-to-repo
+
 This component is responsible for the deduction functionality.
 When the patient becomes deducted from their previous practice and their health record becomes Orphaned/Stranded, the repository receives and stores the digital copy of it.
 
