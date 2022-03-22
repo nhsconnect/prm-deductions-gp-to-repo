@@ -387,6 +387,7 @@ case "${command}" in
       ;;
   _test_docker)
       npm install
+      ./scripts/migrate-db.sh
       npm run test:docker
       ;;
   test_docker)
