@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 import traverse from 'traverse';
-import cloneDeep from 'lodash.clonedeep';
+import { cloneDeep } from 'lodash';
 import { context, trace } from '@opentelemetry/api';
 import { initializeConfig } from './index';
 
