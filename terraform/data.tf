@@ -5,7 +5,7 @@ data "aws_ssm_parameter" "private_zone_id" {
 }
 
 data "aws_ssm_parameter" "gp2gp_authorization_keys" {
-  name = "/repo/${var.environment}/user-input/api-keys/gp2gp-adaptor/gp-to-repo"
+  name = "/repo/${var.environment}/user-input/api-keys/gp2gp-messenger/gp-to-repo"
 }
 
 data "aws_ssm_parameter" "ehr_repo_authorization_keys" {

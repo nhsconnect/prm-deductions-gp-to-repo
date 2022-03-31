@@ -5,7 +5,7 @@ locals {
   task_log_group      = "/nhs/deductions/${var.environment}-${data.aws_caller_identity.current.account_id}/${var.component_name}"
   environment_variables = [
     { name = "NHS_ENVIRONMENT", value = var.environment },
-    { name = "GP2GP_URL", value = "https://gp2gp-adaptor.${var.environment}.${var.env_url_suffix}" },
+    { name = "GP2GP_URL", value = "https://gp2gp-messenger.${var.environment}.${var.env_url_suffix}" },
     { name = "EHR_REPO_URL", value = "https://ehr-repo.${var.environment}.${var.env_url_suffix}" },
     { name = "DATABASE_NAME", value = aws_rds_cluster.gp_to_repo_db_cluster.database_name },
     { name = "DATABASE_HOST", value = aws_rds_cluster.gp_to_repo_db_cluster.endpoint},
@@ -125,7 +125,7 @@ resource "aws_security_group" "vpn_to_gp_to_repo_ecs" {
   }
 }
 
-resource "aws_security_group_rule" "gp2gp-adaptor-to-ehr-repo" {
+resource "aws_security_group_rule" "gp2gp-messenger-to-ehr-repo" {
   type = "ingress"
   protocol = "TCP"
   from_port = 443
@@ -134,17 +134,17 @@ resource "aws_security_group_rule" "gp2gp-adaptor-to-ehr-repo" {
   source_security_group_id = local.ecs_task_sg_id
 }
 
-resource "aws_security_group_rule" "gp-to-repo-to-gp2gp-adaptor" {
+resource "aws_security_group_rule" "gp-to-repo-to-gp2gp-messenger" {
   type = "ingress"
   protocol = "TCP"
   from_port = 443
   to_port = 443
-  security_group_id = data.aws_ssm_parameter.service-to-gp2gp-adaptor-sg-id.value
+  security_group_id = data.aws_ssm_parameter.service-to-gp2gp-messenger-sg-id.value
   source_security_group_id = local.ecs_task_sg_id
 }
 
-data "aws_ssm_parameter" "service-to-gp2gp-adaptor-sg-id" {
-  name = "/repo/${var.environment}/output/prm-deductions-gp2gp-adaptor/service-to-gp2gp-adaptor-sg-id"
+data "aws_ssm_parameter" "service-to-gp2gp-messenger-sg-id" {
+  name = "/repo/${var.environment}/output/prm-deductions-gp2gp-messenger/service-to-gp2gp-messenger-sg-id"
 }
 
 data "aws_ssm_parameter" "service-to-ehr-repo-sg-id" {

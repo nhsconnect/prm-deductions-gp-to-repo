@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "ssm_policy_doc" {
     resources = [
       "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/${var.component_name}-authorization-keys",
       "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/api-keys/${var.component_name}/*",
-      "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/api-keys/gp2gp-adaptor/gp-to-repo",
+      "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/api-keys/gp2gp-messenger/gp-to-repo",
       "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/api-keys/ehr-repo/gp-to-repo",
       "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/output/${var.repo_name}/gp-to-repo-rds-endpoint",
       "arn:aws:ssm:${var.region}:${local.account_id}:parameter/repo/${var.environment}/user-input/gp-to-repo-db-username",
