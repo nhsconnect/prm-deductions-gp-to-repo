@@ -11,7 +11,7 @@ resource "aws_rds_cluster" "gp_to_repo_db_cluster" {
     aws_security_group.gocd_to_db_sg.id,
     aws_security_group.vpn_to_db_sg.id
   ]
-  engine_version = "11.9"
+  engine_version = "11"
   apply_immediately = true
   db_subnet_group_name = aws_db_subnet_group.gp_to_repo_db_cluster_subnet_group.name
   skip_final_snapshot = true
