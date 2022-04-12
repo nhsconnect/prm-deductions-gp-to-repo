@@ -1,5 +1,7 @@
 fileignoreconfig:
 - filename: package-lock.json
+  checksum: c20f553d070db010242751e086c76913150dcdc5334054f84e78e932d23f0203
+- filename: package-lock.json
   checksum: 10b54f1c673422cfc44b77ce958d219d017d1e1edb69ab8339f3abb4c4157bd7
 - filename: Dojofile-infra
   checksum: 507d384beb41feb215ea7e07992fa0524882d486600502f76d6114d88837a71f
