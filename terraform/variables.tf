@@ -46,3 +46,7 @@ variable "env_url_suffix" {
 variable "grant_access_through_vpn" {}
 variable "allow_vpn_to_ecs_tasks" { default=false }
 variable "enable_rds_cluster_deletion_protection" {}
+
+variable "db_instance_number" {
+  default = 1
+}
