@@ -42,6 +42,11 @@ resource "aws_kms_key" "gp_to_repo_key" {
   }
 }
 
+resource "aws_kms_alias" "gp_to_repo_encryption" {
+  name          = "alias/gp-to-repo-encryption-kms-key"
+  target_key_id = aws_kms_key.gp_to_repo_key.id
+}
+
 resource "aws_ssm_parameter" "gp_to_repo_rds_endpoint" {
   name = "/repo/${var.environment}/output/${var.repo_name}/gp-to-repo-rds-endpoint"
   type = "String"
