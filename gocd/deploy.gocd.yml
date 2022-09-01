@@ -246,6 +246,73 @@ pipelines:
                       - -c
                       - ./tasks test_functional
 
+  'prm-deductions-gp-to-repo.perf':
+    group: deductions
+    label_template: "${COUNT}-${git[:8]}"
+    materials:
+      git:
+        type: configrepo
+        blacklist:
+          - docs/**/*.*
+      app:
+        pipeline: prm-deductions-gp-to-repo
+        stage: test_docker
+      test_env:
+        pipeline: prm-deductions-gp-to-repo.test
+        stage: functional
+      base_infra:
+        pipeline: prm-deductions-infra
+        stage: deploy_perf
+    environment_variables:
+      NHS_ENVIRONMENT: perf
+    stages:
+      - promote_docker_image:
+          resources:
+            - docker
+          clean_workspace: true
+          tasks:
+            - exec:
+                command: /bin/bash
+                arguments:
+                  - -c
+                  - ./tasks promote_docker_image
+      - plan_certs:
+          clean_workspace: true
+          jobs:
+            plan: *plan_certs
+      - deploy_certs:
+          clean_workspace: true
+          jobs:
+            deploy: *deploy_certs
+      - plan:
+          clean_workspace: true
+          jobs:
+            plan: *plan
+      - deploy:
+          clean_workspace: true
+          jobs:
+            deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
+      - functional:
+          clean_workspace: true
+          jobs:
+            test:
+              resources:
+                - docker
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks test_functional
+
   'prm-deductions-gp-to-repo.pre-prod':
     group: deductions
     label_template: "${COUNT}-${git[:8]}"
