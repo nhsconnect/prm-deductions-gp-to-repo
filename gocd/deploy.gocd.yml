@@ -300,18 +300,6 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy_db: *deploy_db
-      - functional:
-          clean_workspace: true
-          jobs:
-            test:
-              resources:
-                - docker
-              tasks:
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - -c
-                      - ./tasks test_functional
 
   'prm-deductions-gp-to-repo.pre-prod':
     group: deductions
