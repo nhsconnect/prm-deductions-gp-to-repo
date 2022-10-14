@@ -35,6 +35,7 @@ resource "aws_ssm_parameter" "db-name" {
 
 resource "aws_kms_key" "gp_to_repo_key" {
   description = "Gp To Repo KMS key in ${var.environment} environment"
+  enable_key_rotation = true
   tags = {
     Name = "${var.environment}-gp-to-repo-db"
     CreatedBy = var.repo_name
