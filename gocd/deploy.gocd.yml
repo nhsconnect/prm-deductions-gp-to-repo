@@ -148,7 +148,21 @@ pipelines:
       - deploy_db:
           clean_workspace: true
           jobs:
-            deploy_db: *deploy_db
+            deploy_db:
+              resources:
+                - docker
+              tasks:
+                - fetch:
+                    stage: plan_db
+                    job: plan_db
+                    source: terraform-db-roles/db-roles.tfplan
+                    destination: terraform-db-roles/
+                    is_file: yes
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks tf_apply_db_roles
       - plan_certs:
           clean_workspace: true
           jobs:
