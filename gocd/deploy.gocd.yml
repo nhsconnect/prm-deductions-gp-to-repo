@@ -17,7 +17,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan_certs create
+            - ./tasks tf_plan_certs destroy
   deploy_certs: &deploy_certs
     resources:
       - docker
@@ -46,7 +46,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan create
+            - ./tasks tf_plan destroy
   deploy: &deploy
     resources:
       - docker
@@ -74,7 +74,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan_db_roles create
+            - ./tasks tf_plan_db_roles destroy
   deploy_db: &deploy_db
     resources:
       - docker
