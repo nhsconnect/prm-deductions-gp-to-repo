@@ -14,7 +14,7 @@ alb_deregistration_delay = 15
 log_level = "info"
 
 grant_access_through_vpn = true
-enable_rds_cluster_deletion_protection = true
+enable_rds_cluster_deletion_protection = false
 
 env_url_suffix = "non-prod.patient-deductions.nhs.uk"
 db_instance_number = 3
