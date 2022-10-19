@@ -144,7 +144,19 @@ pipelines:
       - plan_db:
           clean_workspace: true
           jobs:
-            plan_db: *plan_db
+            plan_db:
+              resources:
+                - docker
+              artifacts:
+                - build:
+                    source: terraform-db-roles/db-roles.tfplan
+                    destination: terraform-db-roles/
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks tf_plan_db_roles destroy
       - deploy_db:
           clean_workspace: true
           jobs:
@@ -166,7 +178,24 @@ pipelines:
       - plan_certs:
           clean_workspace: true
           jobs:
-            plan: *plan_certs
+            plan:
+              resources:
+                - docker
+              artifacts:
+                - build:
+                    source: terraform/certs_deployment.tfplan
+                    destination: terraform/
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks create_secrets
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks tf_plan_certs destroy
       - deploy_certs:
           clean_workspace: true
           jobs:
@@ -174,23 +203,35 @@ pipelines:
       - plan:
           clean_workspace: true
           jobs:
-            plan: *plan
-      - deploy:
-          clean_workspace: true
-          jobs:
-            deploy: *deploy
-      - functional:
-          clean_workspace: true
-          jobs:
-            test:
+            plan:
               resources:
                 - docker
+              artifacts:
+                - build:
+                    source: terraform/deployment.tfplan
+                    destination: terraform/
               tasks:
                 - exec:
                     command: /bin/bash
                     arguments:
                       - -c
-                      - ./tasks test_functional
+                      - ./tasks tf_plan destroy
+      - deploy:
+          clean_workspace: true
+          jobs:
+            deploy: *deploy
+#      - functional:
+#          clean_workspace: true
+#          jobs:
+#            test:
+#              resources:
+#                - docker
+#              tasks:
+#                - exec:
+#                    command: /bin/bash
+#                    arguments:
+#                      - -c
+#                      - ./tasks test_functional
 
 
   'prm-deductions-gp-to-repo.test':
@@ -223,28 +264,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db:
-              resources:
-                - docker
-              tasks:
-                - fetch:
-                    stage: plan_db
-                    job: plan_db
-                    source: terraform-db-roles/db-roles.tfplan
-                    destination: terraform-db-roles/
-                    is_file: yes
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - -c
-                      - ./tasks tf_apply_db_roles
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -261,6 +280,14 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
       - functional:
           clean_workspace: true
           jobs:
@@ -304,28 +331,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db:
-              resources:
-                - docker
-              tasks:
-                - fetch:
-                    stage: plan_db
-                    job: plan_db
-                    source: terraform-db-roles/db-roles.tfplan
-                    destination: terraform-db-roles/
-                    is_file: yes
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - -c
-                      - ./tasks tf_apply_db_roles
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -342,6 +347,14 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
 
   'prm-deductions-gp-to-repo.pre-prod':
     group: deductions
@@ -373,28 +386,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db:
-              resources:
-                - docker
-              tasks:
-                - fetch:
-                    stage: plan_db
-                    job: plan_db
-                    source: terraform-db-roles/db-roles.tfplan
-                    destination: terraform-db-roles/
-                    is_file: yes
-                - exec:
-                    command: /bin/bash
-                    arguments:
-                      - -c
-                      - ./tasks tf_apply_db_roles
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -411,6 +402,14 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
       - functional:
           clean_workspace: true
           jobs:
@@ -453,17 +452,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          approval:
-            type: manual
-            allow_only_on_success: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -486,7 +474,17 @@ pipelines:
             allow_only_on_success: true
           jobs:
             deploy: *deploy
-
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            deploy_db: *deploy_db
 #      - functional:
 #          clean_workspace: true
 #          jobs:
