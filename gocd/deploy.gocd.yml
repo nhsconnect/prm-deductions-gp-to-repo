@@ -192,7 +192,7 @@ pipelines:
         stage: test_docker
       dev_env:
         pipeline: prm-deductions-gp-to-repo.dev
-        stage: functional
+        stage: deploy
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_test
@@ -259,7 +259,7 @@ pipelines:
         stage: test_docker
       test_env:
         pipeline: prm-deductions-gp-to-repo.test
-        stage: functional
+        stage: deploy
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_perf
@@ -314,7 +314,7 @@ pipelines:
         stage: test_docker
       test_env:
         pipeline: prm-deductions-gp-to-repo.test
-        stage: functional
+        stage: deploy
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_pre_prod
@@ -380,7 +380,7 @@ pipelines:
         stage: test_docker
       pre-prod_env:
         pipeline: prm-deductions-gp-to-repo.pre-prod
-        stage: functional
+        stage: deploy
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_prod
