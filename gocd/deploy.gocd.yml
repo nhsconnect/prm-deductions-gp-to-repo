@@ -17,7 +17,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan_certs destroy
+            - ./tasks tf_plan_certs create
   deploy_certs: &deploy_certs
     resources:
       - docker
@@ -46,7 +46,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan destroy
+            - ./tasks tf_plan create
   deploy: &deploy
     resources:
       - docker
@@ -74,7 +74,7 @@ common:
           command: /bin/bash
           arguments:
             - -c
-            - ./tasks tf_plan_db_roles destroy
+            - ./tasks tf_plan_db_roles create
   deploy_db: &deploy_db
     resources:
       - docker
@@ -91,27 +91,27 @@ common:
             - -c
             - ./tasks tf_apply_db_roles
       # Applies permissions for migration_role
-#      - exec:
-#          command: /bin/bash
-#          arguments:
-#            - -c
-#            - ./tasks grant_db_permissions
-#      - exec:
-#          command: /bin/bash
-#          arguments:
-#            - -c
-#            - ./tasks run_db_migrations
+      - exec:
+          command: /bin/bash
+          arguments:
+            - -c
+            - ./tasks grant_db_permissions
+      - exec:
+          command: /bin/bash
+          arguments:
+            - -c
+            - ./tasks run_db_migrations
       # Applies permissions for application_role for tables created during migration
-#      - exec:
-#          command: /bin/bash
-#          arguments:
-#            - -c
-#            - ./tasks grant_db_permissions
-#      - exec:
-#          command: /bin/bash
-#          arguments:
-#            - -c
-#            - ./tasks wait_ecs
+      - exec:
+          command: /bin/bash
+          arguments:
+            - -c
+            - ./tasks grant_db_permissions
+      - exec:
+          command: /bin/bash
+          arguments:
+            - -c
+            - ./tasks wait_ecs
 
 pipelines:
   'prm-deductions-gp-to-repo.dev':
@@ -141,14 +141,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -165,18 +157,26 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
-#      - functional:
-#          clean_workspace: true
-#          jobs:
-#            test:
-#              resources:
-#                - docker
-#              tasks:
-#                - exec:
-#                    command: /bin/bash
-#                    arguments:
-#                      - -c
-#                      - ./tasks test_functional
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
+      - functional:
+          clean_workspace: true
+          jobs:
+            test:
+              resources:
+                - docker
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks test_functional
 
 
   'prm-deductions-gp-to-repo.test':
@@ -192,7 +192,7 @@ pipelines:
         stage: test_docker
       dev_env:
         pipeline: prm-deductions-gp-to-repo.dev
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_test
@@ -209,14 +209,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -233,18 +225,26 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
-#      - functional:
-#          clean_workspace: true
-#          jobs:
-#            test:
-#              resources:
-#                - docker
-#              tasks:
-#                - exec:
-#                    command: /bin/bash
-#                    arguments:
-#                      - -c
-#                      - ./tasks test_functional
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
+      - functional:
+          clean_workspace: true
+          jobs:
+            test:
+              resources:
+                - docker
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks test_functional
 
   'prm-deductions-gp-to-repo.perf':
     group: deductions
@@ -259,7 +259,7 @@ pipelines:
         stage: test_docker
       test_env:
         pipeline: prm-deductions-gp-to-repo.test
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_perf
@@ -276,14 +276,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -300,6 +292,14 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
 
   'prm-deductions-gp-to-repo.pre-prod':
     group: deductions
@@ -314,7 +314,7 @@ pipelines:
         stage: test_docker
       test_env:
         pipeline: prm-deductions-gp-to-repo.test
-        stage: deploy
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_pre_prod
@@ -331,14 +331,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -355,18 +347,26 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy
-#      - functional:
-#          clean_workspace: true
-#          jobs:
-#            test:
-#              resources:
-#                - docker
-#              tasks:
-#                - exec:
-#                    command: /bin/bash
-#                    arguments:
-#                      - -c
-#                      - ./tasks test_functional
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          jobs:
+            deploy_db: *deploy_db
+      - functional:
+          clean_workspace: true
+          jobs:
+            test:
+              resources:
+                - docker
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                      - -c
+                      - ./tasks test_functional
   'prm-deductions-gp-to-repo.prod':
     group: deductions
     label_template: "${COUNT}-${git[:8]}"
@@ -378,6 +378,9 @@ pipelines:
       app:
         pipeline: prm-deductions-gp-to-repo
         stage: test_docker
+      pre-prod_env:
+        pipeline: prm-deductions-gp-to-repo.pre-prod
+        stage: functional
       base_infra:
         pipeline: prm-deductions-infra
         stage: deploy_prod
@@ -394,17 +397,6 @@ pipelines:
                 arguments:
                   - -c
                   - ./tasks promote_docker_image
-      - plan_db:
-          clean_workspace: true
-          jobs:
-            plan_db: *plan_db
-      - deploy_db:
-          clean_workspace: true
-          approval:
-            type: manual
-            allow_only_on_success: true
-          jobs:
-            deploy_db: *deploy_db
       - plan_certs:
           clean_workspace: true
           jobs:
@@ -427,6 +419,17 @@ pipelines:
             allow_only_on_success: true
           jobs:
             deploy: *deploy
+      - plan_db:
+          clean_workspace: true
+          jobs:
+            plan_db: *plan_db
+      - deploy_db:
+          clean_workspace: true
+          approval:
+            type: manual
+            allow_only_on_success: true
+          jobs:
+            deploy_db: *deploy_db
 #      - functional:
 #          clean_workspace: true
 #          jobs:
