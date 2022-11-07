@@ -339,14 +339,6 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy: *deploy_certs
-      - plan:
-          clean_workspace: true
-          jobs:
-            plan: *plan
-      - deploy:
-          clean_workspace: true
-          jobs:
-            deploy: *deploy
       - plan_db:
           clean_workspace: true
           jobs:
@@ -355,6 +347,14 @@ pipelines:
           clean_workspace: true
           jobs:
             deploy_db: *deploy_db
+      - plan:
+          clean_workspace: true
+          jobs:
+            plan: *plan
+      - deploy:
+          clean_workspace: true
+          jobs:
+            deploy: *deploy
       - functional:
           clean_workspace: true
           jobs:
