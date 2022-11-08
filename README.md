@@ -1,4 +1,5 @@
-# prm-deductions-gp-to-repo
+# prm-deductions-gp-to-repo 
+### This repository is now archived. It was previously used to enable transferring health records from a GP practice to repository, however this functionality now lives within [EHR Transfer Service](https://github.com/nhsconnect/prm-repo-ehr-transfer-service).
 
 This component is responsible for the deduction functionality.
 When the patient becomes deducted from their previous practice and their health record becomes Orphaned/Stranded, the repository receives and stores the digital copy of it.
